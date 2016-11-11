@@ -200,6 +200,9 @@ class XueQiuSql():
     def gCloseDB(self):
         self.db.close()
 
+    def gCloseDB(self):
+        self.db2.close()
+
 
 
 c = XueQiuSql()

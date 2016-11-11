@@ -178,7 +178,6 @@ class XueQiuSpider:
 
     def getRoleCharacter(self,iscontinue = True):
         '''从用户信息库中取出用户ID,并通过id得到用户的组合信息'''
-        Datab2 = XueQiuSql();
         process = 0
         if(iscontinue == True):
             sp = self.Datab.getSP()
@@ -192,15 +191,15 @@ class XueQiuSpider:
         try:
             # 连接数据库
             self.Datab.gConnectDB()
-            Datab2.gConnectDB2()
+            self.Datab.gConnectDB2()
             # 得到雪球库数据
-            Datab2.gExcuteCmd2("SELECT * FROM XUEQIU")
+            self.Datab.gExcuteCmd2("SELECT * FROM XUEQIU")
             # 移动指针
-            Datab2.gScroll(sp)
+            self.Datab.gScroll(sp)
             while True:
 
                 #取出50个数据
-                roles = Datab2.gFetch(50)
+                roles = self.Datab.gFetch(50)
                 #遍历这50个用户数据
                 for role in roles:
                     #取出用户id
@@ -225,13 +224,16 @@ class XueQiuSpider:
                     print("完成,共完成%d位用户" % process )
                     break
             # 断开数据库
+            self.Datab.gCloseDB2()
             self.Datab.gCloseDB()
         except SystemExit:
             self.Datab.gCloseDB()
+            self.Datab.gCloseDB2()
             print("中途退出，断开数据库连接")
             print("本次完成了%d个用户数据" % process)
         except :
             self.Datab.gCloseDB()
+            self.Datab.gCloseDB2()
             print("出现错误，断开数据库连接")
             print("本次完成了%d个用户数据" % process)
             traceback.print_exc()
