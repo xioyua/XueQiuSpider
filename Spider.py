@@ -193,13 +193,13 @@ class XueQiuSpider:
             self.Datab.gConnectDB()
             self.Datab.gConnectDB2()
             # 得到雪球库数据
-            self.Datab.gExcuteCmd2("SELECT * FROM XUEQIU")
+            self.Datab.gExcuteCmd2("SELECT * FROM XUEQIU WHERE (SELECT COUNT(1) AS NUM FROM XUEQIU_GROUP WHERE XUEQIU.ADDR = XUEQIU_GROUP.USERID) = 0")
             # 移动指针
-            self.Datab.gScroll(sp)
+            self.Datab.gScroll2(sp)
             while True:
 
                 #取出50个数据
-                roles = self.Datab.gFetch(50)
+                roles = self.Datab.gFetch2(50)
                 #遍历这50个用户数据
                 for role in roles:
                     #取出用户id
